@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,6 @@ namespace EmguHW1
         //灰階處理 Gray = 0.299 * Red + 0.587 * Green + 0.114 * Blue
         private void ClickGrayButton(object sender, EventArgs e)
         {
-            
             Image<Bgr, Byte> img = _sourceImage.Clone();
             for (int i = 0; i < _sourceImage.Height; i++)
             {
@@ -47,21 +47,33 @@ namespace EmguHW1
             }
             _outputPictureBox.Image = _sourceImage.ToBitmap();
             
-           /* Image<Bgr, Byte> img = _sourceImage.Clone();
+            /*
+            //make by pointer
+            Image<Bgr, Byte> img = _sourceImage.Clone();
+            Debug.WriteLine(img.NumberOfChannels);
             IntPtr ptr = img.MIplImage.imageData;
-            int height=img.Height;
-            int width=img.Width;
-            for (int i = 0; i < height; i++) 
+            int height = img.Height;
+            int width = img.Width;
+
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < width; j ++)
                 {
+                    int counter = i * img.MIplImage.widthStep + j * img.MIplImage.nChannels;
                     unsafe
-                    { 
-                        ((byte*)ptr + i * img.MIplImage.widthStep)[j] = 0;
+                    {   
+                        double b = ((byte*)ptr + counter)[0];
+                        double g = ((byte*)ptr + counter)[1];
+                        double r = ((byte*)ptr + counter)[2];
+                        double color = 0.299 *r + 0.587 * g + 0.114 * b;
+
+                        for (int k = 0; k < 3;k++ )
+                            ((byte*)ptr + counter)[k]=(byte)color;
                     }
                 }
-            }*/
-            
+            }
+            _outputPictureBox.Image = img.ToBitmap();
+            */
         }
     }
 }
