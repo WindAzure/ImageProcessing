@@ -37,16 +37,16 @@ namespace EmguHW1
         private void ClickGrayButton(object sender, EventArgs e)
         {
             Image<Bgr, Byte> img = _sourceImage.Clone();
-            for (int i = 0; i < _sourceImage.Height; i++)
+            for (int i = 0; i < img.Height; i++)
             {
-                for (int j = 0; j < _sourceImage.Width; j++)
+                for (int j = 0; j < img.Width; j++)
                 {
-                    double color=0.299 * _sourceImage[i, j].Red + 0.587 * _sourceImage[i, j].Green + 0.114 * _sourceImage[i, j].Blue;
-                    _sourceImage[i, j] = new Bgr(color,color,color);
+                    double color = 0.299 * img[i, j].Red + 0.587 * img[i, j].Green + 0.114 * img[i, j].Blue;
+                    img[i, j] = new Bgr(color, color, color);
                 }
             }
-            _outputPictureBox.Image = _sourceImage.ToBitmap();
-            
+            _outputPictureBox.Image = img.ToBitmap();
+
             /*
             //make by pointer
             Image<Bgr, Byte> img = _sourceImage.Clone();
@@ -74,6 +74,15 @@ namespace EmguHW1
             }
             _outputPictureBox.Image = img.ToBitmap();
             */
+        }
+
+        private void ClickEdgeButton(object sender, EventArgs e)
+        {
+            Image<Gray, Byte> img = _sourceImage.Clone().Convert<Gray, byte>();
+            Image<Gray, float> sobelX = img.Sobel(1, 0, 3).AbsDiff(new Gray());
+            Image<Gray, float> sobelY = img.Sobel(0, 1, 3).AbsDiff(new Gray());
+            Image<Gray, float> sobel = sobelX + sobelY;
+            _outputPictureBox.Image = sobel.ToBitmap();
         }
     }
 }

@@ -83,6 +83,7 @@
             this._edgeButton.TabIndex = 3;
             this._edgeButton.Text = "邊緣檢測";
             this._edgeButton.UseVisualStyleBackColor = true;
+            this._edgeButton.Click += new System.EventHandler(this.ClickEdgeButton);
             // 
             // button5
             // 
