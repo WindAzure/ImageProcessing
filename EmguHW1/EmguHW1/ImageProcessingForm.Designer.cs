@@ -34,7 +34,7 @@
             this._edgeButton = new System.Windows.Forms.Button();
             this._thresholdButton = new System.Windows.Forms.Button();
             this._smoothButton = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this._houghLineButton = new System.Windows.Forms.Button();
             this._inputGroupBox = new System.Windows.Forms.GroupBox();
             this._inputPictureBox = new System.Windows.Forms.PictureBox();
             this._outputGroupBox = new System.Windows.Forms.GroupBox();
@@ -106,14 +106,15 @@
             this._smoothButton.UseVisualStyleBackColor = true;
             this._smoothButton.Click += new System.EventHandler(this.ClickSmoothButton);
             // 
-            // button7
+            // _houghLineButton
             // 
-            this.button7.Location = new System.Drawing.Point(548, 62);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 4;
-            this.button7.Text = "自選功能(3)";
-            this.button7.UseVisualStyleBackColor = true;
+            this._houghLineButton.Location = new System.Drawing.Point(548, 62);
+            this._houghLineButton.Name = "_houghLineButton";
+            this._houghLineButton.Size = new System.Drawing.Size(75, 23);
+            this._houghLineButton.TabIndex = 4;
+            this._houghLineButton.Text = "辨識直線";
+            this._houghLineButton.UseVisualStyleBackColor = true;
+            this._houghLineButton.Click += new System.EventHandler(this.ClickHoughLineButton);
             // 
             // _inputGroupBox
             // 
@@ -159,8 +160,9 @@
             this._risePointButton.Name = "_risePointButton";
             this._risePointButton.Size = new System.Drawing.Size(74, 63);
             this._risePointButton.TabIndex = 11;
-            this._risePointButton.Text = "向右旋\r\n轉30度";
+            this._risePointButton.Text = "膚色辨識";
             this._risePointButton.UseVisualStyleBackColor = true;
+            this._risePointButton.Click += new System.EventHandler(this.ClickRisePointButton);
             // 
             // ImageProcessForm
             // 
@@ -172,7 +174,7 @@
             this.Controls.Add(this._inputGroupBox);
             this.Controls.Add(this._thresholdButton);
             this.Controls.Add(this._smoothButton);
-            this.Controls.Add(this.button7);
+            this.Controls.Add(this._houghLineButton);
             this.Controls.Add(this._edgeButton);
             this.Controls.Add(this._histogramButton);
             this.Controls.Add(this._grayButton);
@@ -195,7 +197,7 @@
         private System.Windows.Forms.Button _edgeButton;
         private System.Windows.Forms.Button _thresholdButton;
         private System.Windows.Forms.Button _smoothButton;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button _houghLineButton;
         private System.Windows.Forms.GroupBox _inputGroupBox;
         private System.Windows.Forms.PictureBox _inputPictureBox;
         private System.Windows.Forms.GroupBox _outputGroupBox;

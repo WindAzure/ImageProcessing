@@ -136,5 +136,42 @@ namespace EmguHW1
             img = img.SmoothBlur(5, 5);
             _outputPictureBox.Image = img.ToBitmap();
         }
+
+        private void ClickHoughLineButton(object sender, EventArgs e)
+        {
+            Image<Bgr, Byte> src = _sourceImage.Clone();
+            Image<Gray, Byte> img = _sourceImage.Clone().Convert<Gray, byte>();
+            img=img.ThresholdBinary(new Gray(115), new Gray(255));
+            img = img.Erode(1);
+            img = img.Dilate(1);
+            img = img.Erode(2);
+            img = img.Dilate(2);
+
+            LineSegment2D[][] lines = img.HoughLines(100, 200, 1, Math.PI / 180.0, 60, 60, 10);
+            foreach (var line in lines[0])
+            {
+                src.Draw(line, new Bgr(0, 255, 0), 2);
+            }
+            _outputPictureBox.Image = src.ToBitmap();
+        }
+
+        private void ClickRisePointButton(object sender, EventArgs e)
+        {
+            Image<Ycc,Byte> img = _sourceImage.Clone().Convert<Ycc,Byte>();
+            int width=img.Width;
+            int height=img.Height;
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    //顏色是皮膚色
+                    if (img[i, j].Cr >= 138 && img[i, j].Cr <= 173 && img[i, j].Cb >= 77 && img[i, j].Cb <= 127)
+                    {
+                        img[i, j] = new Ycc(16,128,128);
+                    }
+                }
+            }
+            _outputPictureBox.Image = img.ToBitmap();
+        }
     }
 }
