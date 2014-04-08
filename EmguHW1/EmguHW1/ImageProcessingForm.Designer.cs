@@ -74,6 +74,7 @@
             this._histogramButton.TabIndex = 2;
             this._histogramButton.Text = "直方圖均化";
             this._histogramButton.UseVisualStyleBackColor = true;
+            this._histogramButton.Click += new System.EventHandler(this.ClickHistogramButton);
             // 
             // _edgeButton
             // 

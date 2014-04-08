@@ -84,5 +84,42 @@ namespace EmguHW1
             Image<Gray, float> sobel = sobelX + sobelY;
             _outputPictureBox.Image = sobel.ToBitmap();
         }
+
+        private void ClickHistogramButton(object sender, EventArgs e)
+        {
+            Image<Gray, Byte> img = _sourceImage.Clone().Convert<Gray, Byte>();
+            int cdfMin = -1;
+            int width = img.Width;
+            int height = img.Height;
+            int total = width * height;
+            int[] grayPer = new int[256];
+            int[] sumGray = new int[256];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    grayPer[(int)img[i, j].Intensity]++;
+                }
+            }
+
+            sumGray[0] = grayPer[0];
+            for (int i = 1; i < 256; i++)
+            {
+                sumGray[i] = sumGray[i - 1] + grayPer[i];
+                if (cdfMin == -1 && sumGray[i] != 0)
+                    cdfMin = sumGray[i];
+            }
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    double cdf = sumGray[(int)img[i, j].Intensity];
+                    img[i, j] = new Gray(255 * (cdf - cdfMin) / (total - cdfMin));
+                }
+            }
+            _outputPictureBox.Image = img.ToBitmap();
+        }
     }
 }
