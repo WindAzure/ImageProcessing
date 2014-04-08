@@ -30,6 +30,7 @@ namespace EmguHW1
             {
                 _sourceImage = new Image<Bgr, Byte>(openFileDialog.FileName);
                 _inputPictureBox.Image = _sourceImage.ToBitmap();
+                _outputPictureBox.Image = null;
             }
         }
 
@@ -119,6 +120,20 @@ namespace EmguHW1
                     img[i, j] = new Gray(255 * (cdf - cdfMin) / (total - cdfMin));
                 }
             }
+            _outputPictureBox.Image = img.ToBitmap();
+        }
+
+        private void ClickThresholdButton(object sender, EventArgs e)
+        {
+            Image<Gray, Byte> img = _sourceImage.Clone().Convert<Gray, byte>();
+            img = img.ThresholdBinary(new Gray(128), new Gray(255));
+            _outputPictureBox.Image = img.ToBitmap();
+        }
+
+        private void ClickSmoothButton(object sender, EventArgs e)
+        {
+            Image<Bgr, Byte> img = _sourceImage.Clone();
+            img = img.SmoothBlur(5, 5);
             _outputPictureBox.Image = img.ToBitmap();
         }
     }

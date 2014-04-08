@@ -32,8 +32,8 @@
             this._grayButton = new System.Windows.Forms.Button();
             this._histogramButton = new System.Windows.Forms.Button();
             this._edgeButton = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this._thresholdButton = new System.Windows.Forms.Button();
+            this._smoothButton = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this._inputGroupBox = new System.Windows.Forms.GroupBox();
             this._inputPictureBox = new System.Windows.Forms.PictureBox();
@@ -86,23 +86,25 @@
             this._edgeButton.UseVisualStyleBackColor = true;
             this._edgeButton.Click += new System.EventHandler(this.ClickEdgeButton);
             // 
-            // button5
+            // _thresholdButton
             // 
-            this.button5.Location = new System.Drawing.Point(367, 62);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "自選功能(1)";
-            this.button5.UseVisualStyleBackColor = true;
+            this._thresholdButton.Location = new System.Drawing.Point(367, 62);
+            this._thresholdButton.Name = "_thresholdButton";
+            this._thresholdButton.Size = new System.Drawing.Size(75, 23);
+            this._thresholdButton.TabIndex = 6;
+            this._thresholdButton.Text = "二值化";
+            this._thresholdButton.UseVisualStyleBackColor = true;
+            this._thresholdButton.Click += new System.EventHandler(this.ClickThresholdButton);
             // 
-            // button6
+            // _smoothButton
             // 
-            this.button6.Location = new System.Drawing.Point(457, 62);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "自選功能(2)";
-            this.button6.UseVisualStyleBackColor = true;
+            this._smoothButton.Location = new System.Drawing.Point(457, 62);
+            this._smoothButton.Name = "_smoothButton";
+            this._smoothButton.Size = new System.Drawing.Size(75, 23);
+            this._smoothButton.TabIndex = 5;
+            this._smoothButton.Text = "模糊";
+            this._smoothButton.UseVisualStyleBackColor = true;
+            this._smoothButton.Click += new System.EventHandler(this.ClickSmoothButton);
             // 
             // button7
             // 
@@ -157,7 +159,7 @@
             this._risePointButton.Name = "_risePointButton";
             this._risePointButton.Size = new System.Drawing.Size(74, 63);
             this._risePointButton.TabIndex = 11;
-            this._risePointButton.Text = "加分題";
+            this._risePointButton.Text = "向右旋\r\n轉30度";
             this._risePointButton.UseVisualStyleBackColor = true;
             // 
             // ImageProcessForm
@@ -168,8 +170,8 @@
             this.Controls.Add(this._risePointButton);
             this.Controls.Add(this._outputGroupBox);
             this.Controls.Add(this._inputGroupBox);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this._thresholdButton);
+            this.Controls.Add(this._smoothButton);
             this.Controls.Add(this.button7);
             this.Controls.Add(this._edgeButton);
             this.Controls.Add(this._histogramButton);
@@ -191,8 +193,8 @@
         private System.Windows.Forms.Button _grayButton;
         private System.Windows.Forms.Button _histogramButton;
         private System.Windows.Forms.Button _edgeButton;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button _thresholdButton;
+        private System.Windows.Forms.Button _smoothButton;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.GroupBox _inputGroupBox;
         private System.Windows.Forms.PictureBox _inputPictureBox;
