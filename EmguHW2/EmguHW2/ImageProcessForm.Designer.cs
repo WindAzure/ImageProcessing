@@ -111,6 +111,7 @@
             this._cannyButton.TabIndex = 6;
             this._cannyButton.Text = "邊緣檢測";
             this._cannyButton.UseVisualStyleBackColor = true;
+            this._cannyButton.Click += new System.EventHandler(this.ClickCannyButton);
             // 
             // _grayButton
             // 
@@ -121,6 +122,7 @@
             this._grayButton.TabIndex = 5;
             this._grayButton.Text = " 灰階處理";
             this._grayButton.UseVisualStyleBackColor = true;
+            this._grayButton.Click += new System.EventHandler(this.ClickGrayButton);
             // 
             // ImageProcessForm
             // 

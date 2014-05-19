@@ -15,8 +15,10 @@ namespace EmguHW2
 {
     public partial class ImageProcessForm : Form
     {
-        private Capture _capture;
-        private Image<Bgr, Byte> _image;
+        private bool _isGrayClick = false;
+        private bool _isEdgeClick = false;
+        private Capture _capture = null;
+        private Image<Bgr, Byte> _image = null;
         private System.Windows.Forms.Timer _movieTimer = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer _cameraTimer = new System.Windows.Forms.Timer();
 
@@ -25,7 +27,13 @@ namespace EmguHW2
             InitializeComponent();
         }
 
-        private void Clear()
+        private void ClearFlag()
+        {
+            _isEdgeClick = false;
+            _isGrayClick = false;
+        }
+
+        private void ClearTimer()
         {
             _movieTimer.Stop();
             _movieTimer.Tick -= TickMovieTimer;
@@ -35,7 +43,7 @@ namespace EmguHW2
 
         private void ClickCameraButton(object sender, EventArgs e)
         {
-            Clear();
+            ClearTimer();
 
             try
             {
@@ -57,6 +65,15 @@ namespace EmguHW2
             if (_image != null)
             {
                 _inputPictureBox.Image = _image.ToBitmap();
+                if (_isGrayClick)
+                {
+                    Image<Gray, Byte> img = _image.Clone().Convert<Gray, Byte>();
+                    _outputPictureBox.Image = img.ToBitmap();
+                }
+                else if (_isEdgeClick)
+                {
+                    _outputPictureBox.Image = _image.Canny(100, 200).ToBitmap();
+                }
             }
         }
 
@@ -65,9 +82,9 @@ namespace EmguHW2
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Clear();
+                ClearTimer();
 
-                 try
+                try
                 {
                     _capture = new Capture(openFileDialog.FileName);
                     double fps = _capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS);
@@ -88,11 +105,32 @@ namespace EmguHW2
             if (_image != null)
             {
                 _inputPictureBox.Image = _image.ToBitmap();
+                if (_isGrayClick)
+                {
+                    Image<Gray, Byte> img = _image.Clone().Convert<Gray, Byte>();
+                    _outputPictureBox.Image = img.ToBitmap();
+                }
+                else if (_isEdgeClick)
+                {
+                    _outputPictureBox.Image = _image.Canny(100, 200).ToBitmap();
+                }
             }
             else
             {
                 _movieTimer.Stop();
             }
+        }
+
+        private void ClickGrayButton(object sender, EventArgs e)
+        {
+            ClearFlag();
+            _isGrayClick = true;
+        }
+
+        private void ClickCannyButton(object sender, EventArgs e)
+        {
+            ClearFlag();
+            _isEdgeClick = true;
         }
     }
 }
