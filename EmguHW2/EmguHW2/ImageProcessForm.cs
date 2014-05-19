@@ -15,70 +15,84 @@ namespace EmguHW2
 {
     public partial class ImageProcessForm : Form
     {
-        private Capture _capture = new Capture(0);
-        private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+        private Capture _capture;
+        private Image<Bgr, Byte> _image;
+        private System.Windows.Forms.Timer _movieTimer = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer _cameraTimer = new System.Windows.Forms.Timer();
 
         public ImageProcessForm()
         {
             InitializeComponent();
         }
 
-        private void ClickCameraButton(object sender, EventArgs e)
+        private void Clear()
         {
-            _capture = new Capture(0);
-            Image<Bgr, Byte> image;
-            double rate = _capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS);
-            int delay = (int)(1000.0 / 1);
-            while (true)
-            {
-                _inputPictureBox.Image = _capture.QueryFrame().ToBitmap();
-                CvInvoke.cvWaitKey(delay);
-            }
-            /* Application.Idle -= Application_Idle;
-
-             try
-             {
-                 _capture = new Capture(0);
-                 Application.Idle += Application_Idle;
-             }
-             catch (Exception)
-             {
-                 MessageBox.Show("無法找到攝影機，請確定是否有連接");
-             }*/
+            _movieTimer.Stop();
+            _movieTimer.Tick -= TickMovieTimer;
+            _cameraTimer.Stop();
+            _cameraTimer.Tick -= TickCameraTimer;
         }
 
-        void Application_Idle(object sender, EventArgs e)
+        private void ClickCameraButton(object sender, EventArgs e)
         {
-            _inputPictureBox.Image = _capture.QueryFrame().ToBitmap();
+            Clear();
+
+            try
+            {
+                _capture = new Capture(0);
+                double fps = _capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS);
+                _cameraTimer.Interval = Convert.ToInt16(1);
+                _cameraTimer.Tick += TickCameraTimer;
+                _cameraTimer.Start();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("無法找到攝影機，請確定是否有連接");
+            }
+        }
+
+        void TickCameraTimer(object sender, EventArgs e)
+        {
+            _image = _capture.QueryFrame();
+            if (_image != null)
+            {
+                _inputPictureBox.Image = _image.ToBitmap();
+            }
         }
 
         private void ClickMovieButton(object sender, EventArgs e)
         {
-          // Application.Idle -= Application_Idle;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                Clear();
+
                  try
                 {
                     _capture = new Capture(openFileDialog.FileName);
                     double fps = _capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS);
-                    _timer.Interval = Convert.ToInt16(1000 / fps);
-                    _timer.Tick += _timer_Tick;
-                    _timer.Start();
-                    //Application.Idle += Application_Idle;
+                    _movieTimer.Interval = Convert.ToInt16(1000.0 / fps);
+                    _movieTimer.Tick += TickMovieTimer;
+                    _movieTimer.Start();
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("無法找到攝影機，請確定是否有連接");
+                    MessageBox.Show("影片錯誤");
                 }
             }
         }
 
-        void _timer_Tick(object sender, EventArgs e)
+        void TickMovieTimer(object sender, EventArgs e)
         {
-            Image<Bgr, Byte> img = _capture.QueryFrame();
-            if(img!=null)
-                _inputPictureBox.Image=img.ToBitmap();
+            _image = _capture.QueryFrame();
+            if (_image != null)
+            {
+                _inputPictureBox.Image = _image.ToBitmap();
+            }
+            else
+            {
+                _movieTimer.Stop();
+            }
         }
     }
 }

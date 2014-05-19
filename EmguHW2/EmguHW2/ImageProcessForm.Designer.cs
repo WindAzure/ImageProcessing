@@ -79,6 +79,7 @@
             this._inputPictureBox.Location = new System.Drawing.Point(6, 14);
             this._inputPictureBox.Name = "_inputPictureBox";
             this._inputPictureBox.Size = new System.Drawing.Size(300, 300);
+            this._inputPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._inputPictureBox.TabIndex = 1;
             this._inputPictureBox.TabStop = false;
             // 
@@ -97,6 +98,7 @@
             this._outputPictureBox.Location = new System.Drawing.Point(6, 14);
             this._outputPictureBox.Name = "_outputPictureBox";
             this._outputPictureBox.Size = new System.Drawing.Size(300, 300);
+            this._outputPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._outputPictureBox.TabIndex = 1;
             this._outputPictureBox.TabStop = false;
             // 
